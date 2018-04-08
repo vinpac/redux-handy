@@ -1,0 +1,30 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb-base",
+  "env": {
+    "node": true
+  },
+
+  "rules": {
+    "semi": [
+      2,
+      "never"
+    ],
+
+    "max-len": [2, 100, 4],
+    "quotes": [2, "single"],
+    "function-paren-newline": 0,
+    "object-curly-newline": 0,
+    "import/no-extraneous-dependencies": "off",
+    "arrow-parens": ["error", "as-needed", { "requireForBlockBody": false }],
+
+    "no-console": [
+      "error",
+      {
+        "allow": ["warn", "error", "info"]
+      }
+    ],
+
+    "no-param-reassign": ["error", { "props": false }]
+  }
+}

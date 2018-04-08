@@ -1,0 +1,37 @@
+{
+  "name": "redux-handy",
+  "version": "0.0.1",
+  "author": "Vinicius Pacheco Furtado <vin175pacheco@gmail.com>",
+  "description": "Library that helps you create actions and reducers and handle them easily.",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:vinpac/redux-handy.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "lint": "$(npm bin)/eslint src --fix",
+    "pretest": "$(npm bin)/eslint src --fix",
+    "test": "$(npm bin)/jest",
+    "test:watch": "npm run test --watch",
+    "transpile": "$(npm bin)/babel src -d dist",
+    "prepublish": "npm run transpile"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.44",
+    "@babel/core": "^7.0.0-beta.44",
+    "@babel/preset-env": "^7.0.0-beta.44",
+    "@babel/preset-stage-2": "^7.0.0-beta.44",
+    "babel-core": "^7.0.0-0",
+    "babel-eslint": "^8.2.2",
+    "babel-jest": "^22.4.3",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.10.0",
+    "jest": "^22.4.3",
+    "prettier": "^1.11.1"
+  }
+}
