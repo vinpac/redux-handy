@@ -15,7 +15,32 @@ describe('Redux actions', () => {
     })
   })
 
-  it("should dispatch only once when passing a function that doesn't return a promise", () => {
+  it('should throw an error only if throw error is equal true', async () => {
+    const throwableError = new Error('Some error')
+    const actionCreator = createAction('INCREMENET', payload => {
+      throw throwableError
+    })
+    const dispatch = () => null
+    try {
+      await actionCreator()(dispatch)
+    } catch (error) {
+      throw new Error('Error thrown when not passing throwError')
+    }
+
+    try {
+      await actionCreator()(dispatch, null, {})
+    } catch (error) {
+      throw new Error('Error thrown when passing a throwError not equal true')
+    }
+
+    try {
+      await actionCreator()(dispatch, null, true)
+    } catch (error) {
+      expect(error).toEqual(throwableError)
+    }
+  })
+
+  it('should dispatch only once when passing a function that does not return a promise', () => {
     let dispatchCalled
     const increment = createAction('INCREMENT', payload => payload)
     const dispatch = action => {

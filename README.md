@@ -75,6 +75,20 @@ Using: dispatch(fetchPost('post-1')) with dispatch 2 actions
 }
 */
 
+/* Error handling */
+async function renderPage({ dispatch, getState }) {
+  try {
+    // Pass true to 'throwError' so you can handle it by yourself
+    await fetchPost('no-existing-post')(dispatch, getState, true)
+  } catch (error) {
+    if (error.json.type === 'NotFoundPost') {
+      return renderNotFoundPage()
+    }
+
+    throw error
+  }
+}
+
 
 export default reducer;
 ```

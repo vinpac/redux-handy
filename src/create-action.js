@@ -18,7 +18,7 @@ export default function createAction(type, payloadResolver, defaultMeta) {
       return action
     }
   } else {
-    actionCreator = unresolvedPayload => async (dispatch, getState) => {
+    actionCreator = unresolvedPayload => async (dispatch, getState, throwError) => {
       let meta = defaultMeta
       let prevented
       let isPromise
@@ -36,26 +36,34 @@ export default function createAction(type, payloadResolver, defaultMeta) {
         })
 
         if (prevented) {
-          return
+          return payload
         }
 
         isPromise = payload instanceof Promise
 
         if (isPromise) {
           dispatch({ type, async: true, pending: true, meta })
-          await payload.then(resolvedPayload =>
+          return await payload.then(resolvedPayload =>
             dispatch({ type, async: true, pending: false, payload: resolvedPayload, meta }),
           )
-        } else {
-          dispatch({ type, payload, meta })
         }
+
+        dispatch({ type, payload, meta })
+        return payload
       } catch (error) {
         const action = { type, payload: error, error: true, meta }
         if (isPromise) {
           action.async = true
           action.pending = false
         }
+
         dispatch(action)
+
+        if (throwError === true) {
+          throw error
+        }
+
+        return error
       }
     }
   }
