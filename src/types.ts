@@ -21,7 +21,7 @@ export interface ActionCreator<P> {
 }
 
 export interface ThunkActionCreator<A, P = A, M = any> {
-  (payload?: A | Error): Thunk<Promise<PayloadAction<P, M>>>
+  (payload: A): Thunk<Promise<PayloadAction<P, M>>>
   type?: string
 }
 

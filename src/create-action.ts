@@ -25,7 +25,7 @@ export default function createAction<A, P = A, M = undefined>(
 
   if (payloadCreator === undefined) {
     const actionCreator: ActionCreator<P | undefined> = (
-      payload: P | Error,
+      payload: P | undefined | Error,
     ): PayloadAction<P | undefined> => {
       const action: PayloadAction<P | undefined> = {
         type,
