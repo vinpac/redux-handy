@@ -17,7 +17,7 @@
     "pretest": "$(npm bin)/eslint src --fix",
     "test": "$(npm bin)/jest",
     "test:watch": "npm run test --watch",
-    "transpile": "$(npm bin)/babel src -d dist",
+    "transpile": "$(npm bin)/tsc",
     "prepublish": "npm run transpile"
   },
   "devDependencies": {
@@ -25,13 +25,16 @@
     "@babel/core": "^7.0.0-beta.44",
     "@babel/preset-env": "^7.0.0-beta.44",
     "@babel/preset-stage-2": "^7.0.0-beta.44",
+    "@types/jest": "^23.1.6",
     "babel-core": "^7.0.0-0",
     "babel-eslint": "^8.2.2",
-    "babel-jest": "^22.4.3",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.10.0",
     "jest": "^22.4.3",
-    "prettier": "^1.11.1"
+    "prettier": "^1.11.1",
+    "redux": "^4.0.0",
+    "ts-jest": "^23.0.0",
+    "typescript": "^2.9.2"
   }
 }
