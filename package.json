@@ -1,6 +1,6 @@
 {
   "name": "redux-handy",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0-beta.2",
   "author": "Vinicius Pacheco Furtado <vin175pacheco@gmail.com>",
   "description": "Library that helps you create actions and reducers and handle them easily.",
   "main": "dist/index.js",

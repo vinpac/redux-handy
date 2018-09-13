@@ -27,22 +27,15 @@ export default function createAction<A, P = A, M = undefined>(
     const actionCreator: ActionCreator<P | undefined> = (
       payload: P | undefined | Error,
     ): PayloadAction<P | undefined> => {
-      const action: PayloadAction<P | undefined> = {
+      return {
         type,
-        payload: undefined,
-        error: false,
+        meta:
+          metaCreator !== undefined
+            ? metaCreatorFn ? metaCreatorFn((payload as any) as A) : (metaCreator as M)
+            : undefined,
+        payload,
+        error: payload instanceof Error,
       }
-
-      if (metaCreator !== undefined) {
-        action.meta = metaCreatorFn ? metaCreatorFn((payload as any) as A) : (metaCreator as M)
-      }
-
-      if (payload) {
-        action.payload = payload
-        action.error = payload instanceof Error
-      }
-
-      return action
     }
 
     actionCreator.type = type

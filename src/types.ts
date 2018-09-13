@@ -2,7 +2,7 @@ import { AnyAction } from 'redux'
 
 export interface PayloadAction<P, M = any> extends AnyAction {
   payload: P | Error
-  meta?: M
+  meta: M
   error: boolean
 }
 
@@ -37,7 +37,7 @@ export interface MetaCreator<A, M> {
 }
 
 export interface PayloadCreator<C, P, M = undefined> {
-  (payload: C, context: PayloadCreatorContext<M>): P | Promise<P> | void
+  (payload: C, context: PayloadCreatorContext<M>): P | Promise<P>
 }
 
 export interface Reducer<S> {
