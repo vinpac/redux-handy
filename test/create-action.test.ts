@@ -21,18 +21,18 @@ describe('Redux actions', () => {
   it('should throw an error only if intended', async () => {
     const throwableError = new Error('Some error')
     const getState = () => ({})
-    const actionCreator = createAction<undefined>('INCREMENET', () => {
+    const actionCreator = createAction<any>('INCREMENET', () => {
       throw throwableError
     })
     const dispatch = (p: any) => p
     try {
-      await actionCreator()(dispatch, getState)
+      await actionCreator(undefined)(dispatch, getState)
     } catch (error) {
       throw new Error('Error thrown when not passing throwError')
     }
 
     try {
-      const { error, payload } = await actionCreator()(dispatch, getState)
+      const { error, payload } = await actionCreator(undefined)(dispatch, getState)
 
       if (error) {
         throw payload
@@ -127,6 +127,40 @@ describe('Redux actions', () => {
     )
     await change(-10)(dispatch, getState)
     if (dispatchCount !== 1) {
+      throw new Error(`Dispatch was called ${dispatchCount} times`)
+    }
+  })
+
+  it('should dispatch an meta when given in an async action', async () => {
+    let dispatchCount = 0
+    const getState = () => ({})
+    const dispatch = (action: AnyAction) => {
+      dispatchCount += 1
+      if (dispatchCount === 1) {
+        expect(action).toEqual({
+          type: 'CHANGE',
+          pending: true,
+          async: true,
+          meta: 'ODD',
+        })
+      } else {
+        expect(action).toEqual({
+          type: 'CHANGE',
+          pending: false,
+          async: true,
+          error: false,
+          payload: -10,
+          meta: 'ODD',
+        })
+      }
+    }
+    const change = createAction<number, number, 'ODD' | 'POSITIVE'>(
+      'CHANGE',
+      payload => new Promise(resolve => resolve(payload)),
+      payload => (payload < 0 ? 'ODD' : 'POSITIVE'),
+    )
+    await change(-10)(dispatch, getState)
+    if (dispatchCount !== 2) {
       throw new Error(`Dispatch was called ${dispatchCount} times`)
     }
   })

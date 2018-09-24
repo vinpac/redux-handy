@@ -74,10 +74,10 @@ export default function createAction<A, P = A, M = undefined>(
       if (createdPayload instanceof Promise) {
         dispatch({
           type,
-          meta: metaCreator,
+          meta,
           async: true,
           pending: true,
-        } as PromiseAction<P>)
+        } as PromiseAction<P, M>)
 
         const resolvedPayload = await createdPayload
         return dispatch({
@@ -87,7 +87,7 @@ export default function createAction<A, P = A, M = undefined>(
           async: true,
           pending: false,
           error: false,
-        } as PromiseAction<P>)
+        } as PromiseAction<P, M>)
       }
 
       return dispatch({
@@ -95,7 +95,7 @@ export default function createAction<A, P = A, M = undefined>(
         meta,
         payload: createdPayload,
         error: createdPayload instanceof Error,
-      } as PayloadAction<P>)
+      } as PayloadAction<P, M>)
     } catch (error) {
       return dispatch({
         type,
