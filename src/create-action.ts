@@ -8,6 +8,7 @@ import {
   ThunkActionCreator,
   MetaCreator,
 } from './types'
+import { isPromiseLike } from './utils'
 
 export default function createAction<P>(type: string): ActionCreator<P | undefined>
 export default function createAction<A, P = A, M = undefined>(
@@ -21,7 +22,7 @@ export default function createAction<A, P = A, M = undefined>(
   metaCreator?: MetaCreator<A, M> | M,
 ): ActionCreator<P | undefined> | ThunkActionCreator<A, P, M> {
   const metaCreatorFn: MetaCreator<A, M> | undefined =
-    typeof metaCreator === 'function' ? metaCreator : undefined
+    typeof metaCreator === 'function' ? (metaCreator as MetaCreator<A, M>) : undefined
 
   if (payloadCreator === undefined) {
     const actionCreator: ActionCreator<P | undefined> = (
@@ -71,7 +72,7 @@ export default function createAction<A, P = A, M = undefined>(
         }
       }
 
-      if (createdPayload instanceof Promise) {
+      if (isPromiseLike(createdPayload)) {
         dispatch({
           type,
           meta,

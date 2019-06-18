@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux'
 
 export interface PayloadAction<P, M = any> extends AnyAction {
-  payload: P | Error
+  payload?: P | Error
   meta: M
   error: boolean
 }
